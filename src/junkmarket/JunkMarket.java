@@ -5,6 +5,7 @@
  */
 package junkmarket;
 
+import java.io.IOException;
 import junk.frontend.MainFrame;
 
 /**
@@ -16,7 +17,7 @@ public class JunkMarket {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
         MainFrame mf=new MainFrame();
         mf.setSize(640,480);

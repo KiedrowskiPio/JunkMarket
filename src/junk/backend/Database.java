@@ -82,7 +82,6 @@ public class Database {
             while(rs.next()){
                 clientIdList.add(rs.getInt("id_klienta"));
             }          
-            System.out.println(clientIdList);
             connection.close();
             return(clientIdList);
             
@@ -108,7 +107,6 @@ public class Database {
             while(rs.next()){
                 clientIdList.add(rs.getInt("id_samochodu"));
             }          
-            System.out.println(clientIdList);
             connection.close();
             return(clientIdList);
             
@@ -138,7 +136,6 @@ public class Database {
                     rs.getString("miasto"),
                     rs.getString("nip")));
             }          
-            System.out.println(clientList);
             connection.close();
             return(clientList);
         }
@@ -168,7 +165,6 @@ public class Database {
                     rs.getInt("rocznik"),
                     rs.getString("stan")));
             }          
-            System.out.println(carList);
             connection.close();
             return(carList);
         }
@@ -225,7 +221,6 @@ public class Database {
                         rs.getDouble("cena_uzyskana"),
                         rs.getDate("data_transakcji")));
             }          
-            System.out.println(transactionList);
             connection.close();
             return(transactionList);
         }
@@ -267,7 +262,7 @@ public class Database {
                 procedure.execute();
                 connection.close();
                 
-            System.out.println("usunięto Klienta");
+            System.out.println("usunięto samochód");
         }catch(Exception e) {
                 JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
                 "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
@@ -344,7 +339,6 @@ public class Database {
                 expCar.add(String.valueOf(rs.getInt("rocznik")));
                 expCar.add(rs.getString("stan"));
             }
-            System.out.println(expCar);
             connection.close();
             return(expCar);
             
@@ -354,6 +348,82 @@ public class Database {
             "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
             return null;
             }
+    }
+
+    public ArrayList<String> getMinPriceCar(){
+        ArrayList<String> cheapCar = new ArrayList<String>();
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=JunkMarket",
+                    "JunkMarketAdmin", "junkmarket123");
+
+            PreparedStatement ps = connection.prepareStatement("{call dbo.minAuto}");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                cheapCar.add(String.valueOf(rs.getInt("id_samochodu")));
+                cheapCar.add(rs.getString("marka"));
+                cheapCar.add(rs.getString("model"));
+                cheapCar.add(rs.getString("opis"));
+                cheapCar.add(String.valueOf(rs.getInt("cena")));
+                cheapCar.add(String.valueOf(rs.getInt("rocznik")));
+                cheapCar.add(rs.getString("stan"));
+            }
+            connection.close();
+            return(cheapCar);
+            
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
+            "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
+            return null;
+            }
+    }
+    
+    public int getSummedPrice(){
+        int price = 0;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=JunkMarket",
+                    "JunkMarketAdmin", "junkmarket123");
+
+            PreparedStatement ps = connection.prepareStatement("{call dbo.wartosc}");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                price = rs.getInt("wartosc");
+            }
+            connection.close();
+            
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
+            "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
+            }
+        return(price);
+    }
+
+    public int getMaxTransaction(){
+        int price = 0;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=JunkMarket",
+                    "JunkMarketAdmin", "junkmarket123");
+
+            PreparedStatement ps = connection.prepareStatement("{call dbo.maxTransakcja}");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                price = rs.getInt("maxCenaUzyskana");
+            }
+            connection.close();
+            
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
+            "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
+            }
+        return(price);
     }
 
 

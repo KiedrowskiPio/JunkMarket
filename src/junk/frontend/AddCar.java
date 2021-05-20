@@ -146,6 +146,14 @@ public class AddCar extends javax.swing.JFrame {
                 Price_TextField.getText(),
                 Age_TextField.getText(),
                 State_TextField.getText());
+        
+        Id_TextField.setText("");
+        Brand_TextField.setText("");
+        Model_TextField.setText("");
+        About_TextField.setText("");
+        Price_TextField.setText("");
+        Age_TextField.setText("");
+        State_TextField.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
